@@ -142,7 +142,7 @@ class Friends extends Component {
                               phone: this.state.users[key].phone
                             })}>
                           <Left>
-                            <Thumbnail source={kimHyunSoo} />
+                            <Thumbnail source={{ uri: `${this.state.users[key].avatar}` }} />
                           </Left>
                           <Body style={{ marginTop: 10 }}>
                             <Text>{this.state.users[key].username}</Text>

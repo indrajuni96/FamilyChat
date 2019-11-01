@@ -58,6 +58,7 @@ class Register extends Component {
 
         let ref = firebase.database().ref('users/')
         ref.push({
+          avatar: 'https://ui-avatars.com/api/?size=256&name=' + this.state.username.replace(' ', '+'),
           username,
           email,
           phone
