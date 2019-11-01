@@ -90,8 +90,8 @@ const MainNavigation = createStackNavigator(
     },
     {
         headerMode: 'none',
-        initialRouteName: 'Maps',
-        // initialRouteName: 'Loading',
+        // initialRouteName: 'Maps',
+        initialRouteName: 'Loading',
         // initialRouteKey: 'Login',
     },
 );

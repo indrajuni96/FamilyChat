@@ -35,10 +35,22 @@ class More extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      name: ''
+      name: '',
+      username: '',
+      email: '',
     }
   }
 
+  componentDidMount() {
+    this.getData()
+  }
+
+  getData() {
+    this.setState({
+      username: firebase.auth().currentUser.displayName,
+      email: firebase.auth().currentUser.email
+    })
+  }
   // onPress = () => this.props.navigation.navigate('ChatRoom', { name: this.state.name })
 
   async logout() {
@@ -65,8 +77,8 @@ class More extends Component {
               </Row>
               <Row>
                 <Col style={{ alignItems: 'center' }}>
-                  <Text style={{ color: '#252d39', fontSize: 21 }}>Kim Hyun Soo</Text>
-                  <Text style={{ color: '#63676f', fontSize: 14 }}>KimHyunSoo@gmail.com</Text>
+                  <Text style={{ color: '#252d39', fontSize: 21 }}>{this.state.username}</Text>
+                  <Text style={{ color: '#63676f', fontSize: 14 }}>{this.state.email}</Text>
                 </Col>
               </Row>
             </Grid>
@@ -80,6 +92,18 @@ class More extends Component {
                   </Col>
                   <Col>
                     <Text style={{ color: '#252d39' }}>Edit Profile</Text>
+                  </Col>
+                </Row>
+              </Grid>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Maps')}>
+              <Grid>
+                <Row style={{ paddingVertical: 10 }}>
+                  <Col style={{ width: '15%' }}>
+                    <FontAwesome style={[{ color: '#252f4a' }]} size={25} name={'map-marker'} />
+                  </Col>
+                  <Col>
+                    <Text style={{ color: '#252d39' }}>Location</Text>
                   </Col>
                 </Row>
               </Grid>

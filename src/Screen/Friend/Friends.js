@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  TouchableOpacity,
-  FlatList
+  TouchableOpacity
 } from 'react-native'
 import {
   Container,
@@ -25,8 +24,6 @@ import {
 import firebase from "firebase";
 import Feather from 'react-native-vector-icons/Feather'
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import sarahViloid from '../../Assets/Images/sarahViloid.jpg'
-import angel from '../../Assets/Images/angel.jpg'
 import kimHyunSoo from '../../Assets/Images/kimHyunSoo.jpg'
 
 if (!firebase.apps.length) {
@@ -57,34 +54,6 @@ class Friends extends Component {
   componentDidMount() {
     this.getData()
   }
-
-  // getData() {
-  //   firebase
-  //     .database()
-  //     .ref('users/')
-  //     .once('value').then(data => {
-  //       this.setState({
-  //         users: data.val()
-  //       })
-  //       {
-  //         Object.keys.users(this.state.users).map((key) => {
-  //           this.state({ dataContant: this.state.users[key] })
-  //         })
-  //       }
-  //       console.log(this.state.dataContant)
-  //     })
-  // }
-
-  // getData() {
-  //   firebase
-  //     .database()
-  //     .ref('users/')
-  //     .on('value', (snapshot) => {
-  //       snapshot.forEach((childSnapshot) => {
-  //         console.log(childSnapshot.val())
-  //       })
-  //     })
-  // } 
 
   async getData() {
     this.setState({
@@ -143,8 +112,8 @@ class Friends extends Component {
                 My Profile
               </Text>
               <List>
-                <ListItem avatar button={true}
-                  onPress={() => alert('My Profile')}>
+                <ListItem avatar
+                >
                   <Left>
                     <Thumbnail source={kimHyunSoo} />
                   </Left>
@@ -184,26 +153,6 @@ class Friends extends Component {
                     </>
                   )
                 })}
-
-
-              {/* <FlatList
-                data={this.state.users}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item, key }) => (
-                  <List>
-                    <ListItem avatar button={true}
-                      onPress={() => this.props.navigation.navigate('DetailFriend')}>
-                      <Left>
-                        <Thumbnail source={item.image} />
-                      </Left>
-                      <Body style={{ marginTop: 10 }}>
-                        <Text>{item.name}</Text>
-                        <Text note>{item.status}</Text>
-                      </Body>
-                    </ListItem>
-                  </List>
-                )}
-              /> */}
             </View>
           </View>
         </Content>

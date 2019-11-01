@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  TouchableOpacity,
-  FlatList
+  TouchableOpacity
 } from 'react-native'
 import {
   Container,
@@ -47,26 +46,6 @@ class ListChats extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      // message: [
-      //   {
-      //     image: sarahViloid,
-      //     name: 'Sarah Viloid',
-      //     messageInbox: 'Hallo, indra..',
-      //     date: '14:43 pm'
-      //   },
-      //   {
-      //     image: angel,
-      //     name: 'Angel',
-      //     messageInbox: 'Doing what you like will always keep you happy . .',
-      //     date: '12:50 pm'
-      //   },
-      //   {
-      //     image: kimHyunSoo,
-      //     name: '^-^',
-      //     messageInbox: 'Doing what you like will always keep you happy . .',
-      //     date: '8:43 am'
-      //   },
-      // ],
       username: '',
       email: '',
       dataContant: [],
@@ -149,7 +128,8 @@ class ListChats extends Component {
                         </Left>
                         <Body>
                           <Text>{this.state.users[key].username}</Text>
-                          <Text note>{this.state.users[key].email}</Text>
+                          {/* <Text note>{this.state.users[key].email}</Text> */}
+                          <Text note>Sedang tidur...</Text>
                         </Body>
                         <Right style={{ justifyContent: 'center' }}>
                           {/* <Text note>{item.date}</Text> */}
@@ -159,33 +139,6 @@ class ListChats extends Component {
                   </>
                 )
               })}
-            {/* <FlatList
-              data={this.state.message}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item, key }) => (
-                <List>
-                  <ListItem avatar noBorder button={true}
-                    onPress={() => this.props.navigation.navigate('ChatRoom',
-                      {
-                        username: item.name,
-                        image: item.image,
-                        message: item.messageInbox
-                      }
-                    )}>
-                    <Left>
-                      <Thumbnail source={item.image} />
-                    </Left>
-                    <Body>
-                      <Text>{item.name}</Text>
-                      <Text note>{item.messageInbox}</Text>
-                    </Body>
-                    <Right style={{ justifyContent: 'center' }}>
-                      <Text note>{item.date}</Text>
-                    </Right>
-                  </ListItem>
-                </List>
-              )}
-            /> */}
           </View>
         </Content>
       </Container >

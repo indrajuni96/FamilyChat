@@ -12,12 +12,26 @@ import {
   Grid,
   Col,
   Row,
-  Thumbnail,
   Item,
   Label,
   Input
 } from 'native-base';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import firebase from "firebase";
+
+if (!firebase.apps.length) {
+  firebase.initializeApp({
+    apiKey: "AIzaSyCDOCwY8Wtr38quw9BdsMBHdu5XgpK457Q",
+    authDomain: "familychat-62223.firebaseapp.com",
+    databaseURL: "https://familychat-62223.firebaseio.com",
+    projectId: "familychat-62223",
+    storageBucket: "familychat-62223.appspot.com",
+    messagingSenderId: "896574121183",
+    appId: "1:896574121183:web:ccd37389b530f6ac98756a",
+    measurementId: "G-0KML2JH1L4"
+  })
+}
+
 class EditProfile extends Component {
   render() {
     return (
@@ -42,7 +56,7 @@ class EditProfile extends Component {
           <View style={styles.contentEditProfile}>
             <Item stackedLabel>
               <Label>Username</Label>
-              <Input style={{ color: '#252d39' }} defaultValue="Kim Hyun Soo" />
+              <Input style={{ color: '#252d39' }} defaultValue={firebase.auth().currentUser.displayName} />
             </Item>
             <Item stackedLabel>
               <Label>Phone</Label>
@@ -50,7 +64,7 @@ class EditProfile extends Component {
             </Item>
             <Item stackedLabel style={{ marginTop: 10 }}>
               <Label>Email</Label>
-              <Input style={{ color: '#252d39' }} defaultValue="KimHyunSoo@gmail.com" />
+              <Input style={{ color: '#252d39' }} defaultValue={firebase.auth().currentUser.email} />
             </Item>
 
             <TouchableOpacity style={styles.btnEditProfile} onPress={() => alert('Edit Profile')}>
