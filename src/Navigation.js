@@ -18,6 +18,7 @@ import ListChat from './Screen/Chat/ListChats';
 import ChatRoom from './Screen/Chat/ChatRoom'
 import EditProfile from './Screen/More/EditProfile'
 import More from './Screen/More/More'
+import Maps from './Screen/Maps'
 
 const TabNavigation = createMaterialBottomTabNavigator(
     {
@@ -82,11 +83,15 @@ const MainNavigation = createStackNavigator(
         Loading: {
             screen: Loading
         },
+        Maps: {
+            screen: Maps
+        },
         Friend: TabNavigation,
     },
     {
         headerMode: 'none',
-        initialRouteName: 'Loading',
+        initialRouteName: 'Maps',
+        // initialRouteName: 'Loading',
         // initialRouteKey: 'Login',
     },
 );
