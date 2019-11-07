@@ -12,22 +12,9 @@ import {
   Row,
   Text
 } from 'native-base'
-import firebase from "firebase";
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { GiftedChat } from 'react-native-gifted-chat'
-
-if (!firebase.apps.length) {
-  firebase.initializeApp({
-    apiKey: "AIzaSyCDOCwY8Wtr38quw9BdsMBHdu5XgpK457Q",
-    authDomain: "familychat-62223.firebaseapp.com",
-    databaseURL: "https://familychat-62223.firebaseio.com",
-    projectId: "familychat-62223",
-    storageBucket: "familychat-62223.appspot.com",
-    messagingSenderId: "896574121183",
-    appId: "1:896574121183:web:ccd37389b530f6ac98756a",
-    measurementId: "G-0KML2JH1L4"
-  })
-}
+import * as firebase from "firebase"
 
 class ChatRoom extends Component {
   state = {
@@ -51,7 +38,7 @@ class ChatRoom extends Component {
       name: firebase.auth().currentUser.displayName,
       email: firebase.auth().currentUser.email,
       avatar: firebase.auth().currentUser.photoURL,
-      id: firebase.auth().currentUser.uid,
+      // id: firebase.auth().currentUser.uid,
       _id: firebase.auth().currentUser.uid,
     }
   }
@@ -104,26 +91,6 @@ class ChatRoom extends Component {
         this.setState({ Messages: data })
       })
   }
-
-  // getMessage() {
-  //   firebase
-  //     .database()
-  //     .ref(`Messages/${this.state.name}/${this.state.displayName}`)
-  //     .on('value', data => {
-  //       var message = []
-  //       data.forEach(child => {
-  //         message.push(child)
-  //       })
-  //       this.setState({ Messages: message })
-
-  //       // console.log(this.state.Messages)
-  //       this.state.Messages.forEach(val => {
-  //         let data = JSON.parse(JSON.stringify(val))
-  //         console.log(data.rio)
-  //       })
-
-  //     })
-  // }
 
   render() {
     return (

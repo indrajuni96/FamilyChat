@@ -22,24 +22,8 @@ import {
   Body,
   Right
 } from 'native-base';
-import firebase from "firebase";
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import sarahViloid from '../../Assets/Images/sarahViloid.jpg'
-import angel from '../../Assets/Images/angel.jpg'
-import kimHyunSoo from '../../Assets/Images/kimHyunSoo.jpg'
-
-if (!firebase.apps.length) {
-  firebase.initializeApp({
-    apiKey: "AIzaSyCDOCwY8Wtr38quw9BdsMBHdu5XgpK457Q",
-    authDomain: "familychat-62223.firebaseapp.com",
-    databaseURL: "https://familychat-62223.firebaseio.com",
-    projectId: "familychat-62223",
-    storageBucket: "familychat-62223.appspot.com",
-    messagingSenderId: "896574121183",
-    appId: "1:896574121183:web:ccd37389b530f6ac98756a",
-    measurementId: "G-0KML2JH1L4"
-  })
-}
+import * as firebase from "firebase"
 
 class ListChats extends Component {
 
@@ -124,7 +108,7 @@ class ListChats extends Component {
                           }
                         )}>
                         <Left>
-                          <Thumbnail source={kimHyunSoo} />
+                          <Thumbnail source={{ uri: `${this.state.users[key].avatar}` }} />
                         </Left>
                         <Body>
                           <Text>{this.state.users[key].username}</Text>

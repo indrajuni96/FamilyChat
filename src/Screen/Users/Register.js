@@ -14,20 +14,7 @@ import {
   Label,
   Spinner
 } from 'native-base';
-import firebase from "firebase";
-
-if (!firebase.apps.length) {
-  firebase.initializeApp({
-    apiKey: "AIzaSyCDOCwY8Wtr38quw9BdsMBHdu5XgpK457Q",
-    authDomain: "familychat-62223.firebaseapp.com",
-    databaseURL: "https://familychat-62223.firebaseio.com",
-    projectId: "familychat-62223",
-    storageBucket: "familychat-62223.appspot.com",
-    messagingSenderId: "896574121183",
-    appId: "1:896574121183:web:ccd37389b530f6ac98756a",
-    measurementId: "G-0KML2JH1L4"
-  })
-}
+import * as firebase from "firebase"
 
 class Register extends Component {
 
