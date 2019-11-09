@@ -25,21 +25,25 @@ class More extends Component {
       name: '',
       username: '',
       email: '',
+      avatar: ''
     }
   }
 
   componentDidMount() {
-    this.getData()
+    this.getDataProfile()
   }
 
-  getData() {
-    this.setState({
-      username: firebase.auth().currentUser.displayName,
-      email: firebase.auth().currentUser.email
+  async getDataProfile() {
+    const userCollection = 'users/' + firebase.auth().currentUser.displayName
+    await firebase.database().ref(userCollection).once('value', (data) => {
+      this.setState({
+        email: data.val().email,
+        username: data.val().username,
+        avatar: data.val().avatar,
+        status: data.val().status
+      })
     })
   }
-  // onPress = () => this.props.navigation.navigate('ChatRoom', { name: this.state.name })
-
   async logout() {
     await firebase.auth().signOut()
     this.props.navigation.replace('Login')
@@ -59,7 +63,7 @@ class More extends Component {
             <Grid>
               <Row style={{ paddingVertical: 15 }}>
                 <Col style={{ alignItems: 'center' }}>
-                  <Thumbnail large source={kimHyunSoo} />
+                  <Thumbnail source={{ uri: `${this.state.avatar}` }} />
                 </Col>
               </Row>
               <Row>

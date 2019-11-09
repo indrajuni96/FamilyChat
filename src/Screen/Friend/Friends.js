@@ -32,30 +32,39 @@ class Friends extends Component {
     this.state = {
       username: '',
       email: '',
-      dataContant: [],
-      users: [],
-      message: []
+      avatar: '',
+      status: '',
+      friends: [],
     }
   }
 
-  componentDidMount() {
-    this.getData()
+  async componentDidMount() {
+    await this.getDataProfile()
+    this.getDataFriends()
   }
 
-  async getData() {
-    this.setState({
-      username: firebase.auth().currentUser.displayName,
-      email: firebase.auth().currentUser.email
-    })
+  async getDataFriends() {
     await firebase
       .database()
       .ref('users/')
       .on('value', (snapshot) => {
-        const set = snapshot.val()
+        const dataFriends = snapshot.val()
         this.setState({
-          users: set
+          friends: dataFriends
         })
       })
+  }
+
+  async getDataProfile() {
+    const userCollection = 'users/' + firebase.auth().currentUser.displayName
+    await firebase.database().ref(userCollection).once('value', (data) => {
+      this.setState({
+        email: data.val().email,
+        username: data.val().username,
+        avatar: data.val().avatar,
+        status: data.val().status
+      })
+    })
   }
 
   render() {
@@ -102,11 +111,11 @@ class Friends extends Component {
                 <ListItem avatar
                 >
                   <Left>
-                    <Thumbnail source={kimHyunSoo} />
+                    <Thumbnail source={{ uri: `${this.state.avatar}` }} />
                   </Left>
                   <Body style={{ marginTop: 10 }}>
                     <Text>{this.state.username}</Text>
-                    <Text note>Sedang Tidur</Text>
+                    <Text note>{this.state.status}</Text>
                   </Body>
                 </ListItem>
               </List>
@@ -115,8 +124,8 @@ class Friends extends Component {
               <Text style={{ paddingHorizontal: 10, color: '#252d39', fontWeight: 'bold' }}>
                 Friends
               </Text>
-              {Object.keys(this.state.users)
-                .filter((val) => this.state.users[val].email !== this.state.email)
+              {Object.keys(this.state.friends)
+                .filter((val) => this.state.friends[val].email !== this.state.email)
                 .map((key) => {
                   return (
                     <>
@@ -124,16 +133,16 @@ class Friends extends Component {
                         <ListItem avatar button={true}
                           onPress={() => this.props.navigation.navigate('DetailFriend',
                             {
-                              username: this.state.users[key].username,
-                              email: this.state.users[key].email,
-                              phone: this.state.users[key].phone
+                              username: this.state.friends[key].username,
+                              email: this.state.friends[key].email,
+                              avatar: this.state.friends[key].avatar
                             })}>
                           <Left>
-                            <Thumbnail source={{ uri: `${this.state.users[key].avatar}` }} />
+                            <Thumbnail source={{ uri: `${this.state.friends[key].avatar}` }} />
                           </Left>
                           <Body style={{ marginTop: 10 }}>
-                            <Text>{this.state.users[key].username}</Text>
-                            <Text note>{this.state.users[key].email}</Text>
+                            <Text>{this.state.friends[key].username}</Text>
+                            <Text note>{this.state.friends[key].email}</Text>
                           </Body>
                         </ListItem>
                       </List>

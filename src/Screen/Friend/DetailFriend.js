@@ -24,7 +24,7 @@ class DetailInfo extends Component {
     this.state = {
       username: '',
       email: '',
-      phone: ''
+      avatar: ''
     }
   }
 
@@ -32,7 +32,7 @@ class DetailInfo extends Component {
     this.setState({
       username: this.props.navigation.getParam('username'),
       email: this.props.navigation.getParam('email'),
-      phone: this.props.navigation.getParam('phone')
+      avatar: this.props.navigation.getParam('avatar')
     })
   }
 
@@ -62,7 +62,7 @@ class DetailInfo extends Component {
             <Grid>
               <Row style={{ paddingVertical: 15 }}>
                 <Col style={{ alignItems: 'center' }}>
-                  <Thumbnail large source={kimHyunSoo} />
+                  <Thumbnail source={{ uri: `${this.state.avatar}` }} />
                 </Col>
               </Row>
               <Row>

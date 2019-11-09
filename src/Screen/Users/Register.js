@@ -42,7 +42,7 @@ class Register extends Component {
       }
     })
 
-    if (this.state.password !== this.state.comfirm_password) {
+    if (this.state.password !== this.state.confirm_password) {
       return alert("Password doesn't match")
     }
 

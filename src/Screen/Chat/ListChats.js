@@ -32,9 +32,8 @@ class ListChats extends Component {
     this.state = {
       username: '',
       email: '',
-      dataContant: [],
+      status: '',
       users: [],
-      message: []
     }
   }
 
@@ -103,8 +102,7 @@ class ListChats extends Component {
                       <ListItem avatar noBorder button={true}
                         onPress={() => this.props.navigation.navigate('ChatRoom',
                           {
-                            username: this.state.users[key].username,
-                            image: this.state.users[key].email
+                            username: this.state.users[key].username
                           }
                         )}>
                         <Left>
@@ -113,7 +111,7 @@ class ListChats extends Component {
                         <Body>
                           <Text>{this.state.users[key].username}</Text>
                           {/* <Text note>{this.state.users[key].email}</Text> */}
-                          <Text note>Sedang tidur...</Text>
+                          <Text note>{this.state.users[key].status}.</Text>
                         </Body>
                         <Right style={{ justifyContent: 'center' }}>
                           {/* <Text note>{item.date}</Text> */}
