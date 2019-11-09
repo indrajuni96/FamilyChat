@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  Linking
 } from 'react-native'
 import {
   Container,
@@ -14,9 +15,9 @@ import {
   Row,
   Thumbnail
 } from 'native-base';
-import kimHyunSoo from '../../Assets/Images/kimHyunSoo.jpg'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import * as firebase from "firebase"
 
 class DetailInfo extends Component {
   constructor(props) {
@@ -24,19 +25,38 @@ class DetailInfo extends Component {
     this.state = {
       username: '',
       email: '',
-      avatar: ''
+      avatar: '',
+      phoneNumber: ''
     }
   }
 
-  componentDidMount() {
-    this.setState({
+  async componentDidMount() {
+    await this.getUserData()
+    this.getPhoneNumber()
+  }
+
+  async getUserData() {
+    await this.setState({
       username: this.props.navigation.getParam('username'),
       email: this.props.navigation.getParam('email'),
       avatar: this.props.navigation.getParam('avatar')
     })
   }
 
-  // onPress = () => this.props.navigation.navigate('ChatRoom', { name: this.state.name })
+  async getPhoneNumber() {
+    const userCollection = 'users/' + this.state.username
+    await firebase.database().ref(userCollection).once('value', (data) => {
+      this.setState({
+        phoneNumber: data.val().phoneNumber
+      })
+    })
+    console.log(this.state.phoneNumber)
+  }
+
+  callPhone() {
+    let phoneNumber = `tel:${this.state.phoneNumber}`;
+    Linking.openURL(phoneNumber);
+  }
 
   render() {
     return (
@@ -90,14 +110,14 @@ class DetailInfo extends Component {
                 </Row>
               </Grid>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => alert('Delete')}>
+            <TouchableOpacity onPress={() => this.callPhone()}>
               <Grid>
                 <Row style={{ paddingVertical: 10 }}>
                   <Col style={{ width: '10%', marginRight: 10, alignItems: 'center' }}>
-                    <MaterialCommunityIcons style={[{ color: '#252f4a' }]} size={25} name={'delete'} />
+                    <FontAwesome style={[{ color: '#252f4a' }]} size={25} name={'phone'} />
                   </Col>
                   <Col>
-                    <Text style={{ color: '#252d39' }}>Delete</Text>
+                    <Text style={{ color: '#252d39' }}>Call Phone</Text>
                   </Col>
                 </Row>
               </Grid>

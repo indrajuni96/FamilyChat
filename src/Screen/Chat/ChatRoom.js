@@ -2,7 +2,8 @@ import React, { Component, Children } from 'react'
 import {
   View,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  Linking
 } from 'react-native'
 import {
   Container,
@@ -20,7 +21,8 @@ class ChatRoom extends Component {
   state = {
     Messages: [],
     name: '',
-    displayName: ''
+    displayName: '',
+    phoneNumber: ''
 
   }
 
@@ -31,6 +33,7 @@ class ChatRoom extends Component {
       displayName: this.props.navigation.getParam('username')
     })
     this.getMessage()
+    this.getPhoneNumber()
   }
 
   userData = () => {
@@ -38,7 +41,6 @@ class ChatRoom extends Component {
       name: firebase.auth().currentUser.displayName,
       email: firebase.auth().currentUser.email,
       avatar: firebase.auth().currentUser.photoURL,
-      // id: firebase.auth().currentUser.uid,
       _id: firebase.auth().currentUser.uid,
     }
   }
@@ -92,6 +94,20 @@ class ChatRoom extends Component {
       })
   }
 
+  async getPhoneNumber() {
+    const userCollection = 'users/' + this.state.displayName
+    await firebase.database().ref(userCollection).once('value', (data) => {
+      this.setState({
+        phoneNumber: data.val().phoneNumber
+      })
+    })
+  }
+
+  callPhone() {
+    let phoneNumber = `tel:${this.state.phoneNumber}`;
+    Linking.openURL(phoneNumber);
+  }
+
   render() {
     return (
       <Container>
@@ -110,7 +126,7 @@ class ChatRoom extends Component {
                 <Col>
                   <Row>
                     <Col style={{ alignItems: 'flex-end' }}>
-                      <TouchableOpacity onPress={() => alert('Phone!')}>
+                      <TouchableOpacity onPress={() => this.callPhone()}>
                         <FontAwesome style={[{ color: '#ffff' }]} size={25} name={'phone'} />
                       </TouchableOpacity>
                     </Col>
@@ -125,7 +141,6 @@ class ChatRoom extends Component {
             </Grid>
           </View>
         </Header>
-        {/* <Text>{this.props.navigation.getParam('name')}</Text> */}
         <GiftedChat
           messages={this.state.Messages}
           onSend={Messages => this.onSend(Messages)}

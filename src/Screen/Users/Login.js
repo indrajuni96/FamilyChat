@@ -25,14 +25,18 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      isLoading: false
+      isLoading: false,
+      btnDisabled: false,
+      inputDisabled: false
     };
   }
 
   handleLogin() {
 
     this.setState({
-      isLoading: true
+      inputDisabled: true,
+      isLoading: true,
+      btnDisabled: true
     })
 
     const { email, password } = this.state
@@ -48,7 +52,9 @@ class Login extends Component {
         ToastAndroid.show('Email or Password Invalid', ToastAndroid.SHORT)
         console.log(error)
         this.setState({
-          isLoading: false
+          inputDisabled: false,
+          isLoading: false,
+          btnDisabled: false
         })
       })
   }
@@ -80,12 +86,14 @@ class Login extends Component {
             <Item floatingLabel style={{ marginVertical: 7 }}>
               <Label>Email</Label>
               <Input
+                disabled={this.state.inputDisabled}
                 onChangeText={(email) => this.setState({ email })}
                 value={this.state.email} />
             </Item>
             <Item floatingLabel style={{ marginVertical: 7 }}>
               <Label>Password</Label>
               <Input
+                disabled={this.state.inputDisabled}
                 secureTextEntry={true}
                 onChangeText={(password) => this.setState({ password })}
                 value={this.state.password} />
@@ -96,10 +104,15 @@ class Login extends Component {
             <View>
               <Text style={{ textAlign: 'center' }}>OR</Text>
             </View>
-            <TouchableOpacity style={styles.btnLogin} onPress={() => this.props.navigation.navigate('Register')}>
+            <TouchableOpacity
+              disabled={this.state.btnDisabled}
+              style={styles.btnLogin}
+              onPress={() => this.props.navigation.navigate('Register')}>
               <Text style={{ fontSize: 20, paddingVertical: 8, textAlign: 'center', color: '#00c300', fontWeight: 'bold' }}>REGISTER</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => alert('Log in Facebook')}>
+            <TouchableOpacity
+              disabled={this.state.btnDisabled}
+              onPress={() => alert('Log in Facebook')}>
               <Text style={{ marginVertical: 15 }}>
                 <FontAwesome style={[{ color: '#3b5998' }]} size={25} name={'facebook-square'} /> Log in with Facebook
             </Text>

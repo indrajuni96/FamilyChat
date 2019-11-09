@@ -23,7 +23,6 @@ import {
 } from 'native-base';
 import Feather from 'react-native-vector-icons/Feather'
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import kimHyunSoo from '../../Assets/Images/kimHyunSoo.jpg'
 import * as firebase from "firebase"
 
 class Friends extends Component {

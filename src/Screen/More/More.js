@@ -14,7 +14,6 @@ import {
   Row,
   Thumbnail
 } from 'native-base';
-import kimHyunSoo from '../../Assets/Images/kimHyunSoo.jpg'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import * as firebase from "firebase"
 
