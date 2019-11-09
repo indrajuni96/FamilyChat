@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  ToastAndroid
 } from 'react-native'
 import {
   Container,
@@ -28,31 +29,28 @@ class Login extends Component {
     };
   }
 
-  async handleLogin() {
-    const { email, password } = this.state;
-    // console.log(email + password)
+  handleLogin() {
 
     this.setState({
       isLoading: true
     })
 
-    await firebase.auth().signInWithEmailAndPassword(email, password)
-      .then((result) => {
-        alert("Logged In!")
+    const { email, password } = this.state
 
-        // Navigate to the Home page
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(async (result) => {
+        // Navigate to the Friend page
         this.props.navigation.replace('Friend')
-      }).catch((error) => {
-        alert('Email or Password Invalid')
+        ToastAndroid.show('Logged in!', ToastAndroid.SHORT)
+      })
+      .catch((error) => {
+        // alert('Email or Password Invalid')
+        ToastAndroid.show('Email or Password Invalid', ToastAndroid.SHORT)
         console.log(error)
         this.setState({
           isLoading: false
         })
-      });
-
-    this.setState({
-      isLoading: false
-    })
+      })
   }
 
   __renderBtnLogin() {

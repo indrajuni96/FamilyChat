@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  ToastAndroid
 } from 'react-native'
 import {
   Container,
@@ -23,15 +24,27 @@ class Register extends Component {
     this.state = {
       email: '',
       username: '',
-      phone: '',
+      phoneNumber: 0,
       password: '',
+      confirm_password: '',
       isLoading: false
     };
   }
 
   async handleRegister() {
-    const { email, username, phone, password } = this.state;
-    // console.log(email + username + phone + password)
+    const { email, username, phoneNumber, password } = this.state;
+    const userCollection = 'users/' + this.state.username
+
+    // check username is already in use
+    firebase.database().ref(userCollection).once('value', (snapshot) => {
+      if (snapshot.val()) {
+        return alert('Username already exists')
+      }
+    })
+
+    if (this.state.password !== this.state.comfirm_password) {
+      return alert("Password doesn't match")
+    }
 
     this.setState({
       isLoading: true
@@ -43,25 +56,30 @@ class Register extends Component {
           displayName: this.state.username
         })
 
-        let ref = firebase.database().ref('users/')
-        ref.push({
-          avatar: 'https://ui-avatars.com/api/?size=256&name=' + this.state.username.replace(' ', '+'),
+        const avatar = 'https://ui-avatars.com/api/?size=256&name=' + this.state.username.replace(' ', '+')
+
+        firebase.database().ref(userCollection).set({
           username,
           email,
-          phone
+          phoneNumber,
+          avatar: avatar
         }).then((data) => {
           console.log('Data : ', data)
         }).catch((error) => {
           console.log('error', error)
         })
+
         console.log("Account created Success")
-        alert("Account created Success")
+        // alert("Account created Success")
         this.setState({
           email: '',
           username: '',
-          phone: '',
+          phoneNumber: '',
           password: '',
+          confirm_password: ''
         })
+
+        ToastAndroid.show('Account created Success', ToastAndroid.SHORT)
       }).catch((error) => {
         console.log(error)
         this.setState({
@@ -112,8 +130,8 @@ class Register extends Component {
             <Item floatingLabel style={{ marginVertical: 7 }}>
               <Label>Phone</Label>
               <Input
-                onChangeText={(phone) => this.setState({ phone })}
-                value={this.state.phone} />
+                onChangeText={(phoneNumber) => this.setState({ phoneNumber })}
+                value={this.state.phoneNumber} />
             </Item>
             <Item floatingLabel style={{ marginVertical: 7 }}>
               <Label>Password</Label>
@@ -121,6 +139,13 @@ class Register extends Component {
                 secureTextEntry={true}
                 onChangeText={(password) => this.setState({ password })}
                 value={this.state.password} />
+            </Item>
+            <Item floatingLabel style={{ marginVertical: 7 }}>
+              <Label>Confirm Password</Label>
+              <Input
+                secureTextEntry={true}
+                onChangeText={(confirm_password) => this.setState({ confirm_password })}
+                value={this.state.confirm_password} />
             </Item>
             {this.__renderBtnRegister()}
             <View>
