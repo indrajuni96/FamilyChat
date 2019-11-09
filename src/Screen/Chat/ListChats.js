@@ -68,7 +68,7 @@ class ListChats extends Component {
                   <Text style={{ color: '#ffff', fontSize: 20 }}>Chats</Text>
                 </Col>
                 <Col>
-                  <Row>
+                  {/* <Row>
                     <Col style={{ alignItems: 'flex-end' }}>
                       <TouchableOpacity onPress={() => alert('Add Chat!')}>
                         <Ionicons style={[{ color: '#ffff' }]} size={25} name={'ios-chatbubbles'} />
@@ -79,7 +79,7 @@ class ListChats extends Component {
                         <Ionicons style={[{ color: '#ffff' }]} size={25} name={'md-more'} />
                       </TouchableOpacity>
                     </Col>
-                  </Row>
+                  </Row> */}
                 </Col>
               </Row>
             </Grid>

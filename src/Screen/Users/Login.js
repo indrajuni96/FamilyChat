@@ -17,6 +17,7 @@ import {
 } from 'native-base';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import * as firebase from "firebase"
+import Geolocation from '@react-native-community/geolocation';
 
 class Login extends Component {
 
@@ -29,6 +30,20 @@ class Login extends Component {
       btnDisabled: false,
       inputDisabled: false
     };
+  }
+  async componentDidMount() {
+    this.getLocation()
+  }
+
+  async getLocation() {
+    Geolocation.getCurrentPosition(
+      position => {
+        latitude: position.coords.latitude
+        longitude: position.coords.longitude
+      },
+      error => console.log(error),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
   }
 
   handleLogin() {
@@ -112,7 +127,8 @@ class Login extends Component {
             </TouchableOpacity>
             <TouchableOpacity
               disabled={this.state.btnDisabled}
-              onPress={() => alert('Log in Facebook')}>
+            // onPress={() => alert('Log in Facebook')}
+            >
               <Text style={{ marginVertical: 15 }}>
                 <FontAwesome style={[{ color: '#3b5998' }]} size={25} name={'facebook-square'} /> Log in with Facebook
             </Text>

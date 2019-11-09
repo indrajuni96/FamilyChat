@@ -108,7 +108,7 @@ class Friends extends Component {
                   <Text style={{ color: '#ffff', fontSize: 20 }}>Friends</Text>
                 </Col>
                 <Col>
-                  <Row>
+                  {/* <Row>
                     <Col style={{ alignItems: 'flex-end' }}>
                       <TouchableOpacity onPress={() => alert('Add user!')}>
                         <Feather style={[{ color: '#ffff' }]} size={25} name={'user-plus'} />
@@ -119,7 +119,7 @@ class Friends extends Component {
                         <AntDesign style={[{ color: '#ffff' }]} size={25} name={'setting'} />
                       </TouchableOpacity>
                     </Col>
-                  </Row>
+                  </Row> */}
                 </Col>
               </Row>
             </Grid>

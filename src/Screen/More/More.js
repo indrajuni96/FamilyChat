@@ -86,7 +86,7 @@ class More extends Component {
                 </Row>
               </Grid>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Maps')}>
+            {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('Maps')}>
               <Grid>
                 <Row style={{ paddingVertical: 10 }}>
                   <Col style={{ width: '15%' }}>
@@ -97,7 +97,7 @@ class More extends Component {
                   </Col>
                 </Row>
               </Grid>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity onPress={() => this.logout()}>
               <Grid>
                 <Row style={{ paddingVertical: 10 }}>

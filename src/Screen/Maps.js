@@ -1,5 +1,11 @@
 import React, { Component } from "react"
-import { StyleSheet, Text, View, Alert } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity
+} from 'react-native'
+import { Container, Icon } from 'native-base'
 import MapView, { Marker } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 
@@ -7,8 +13,8 @@ class Maps extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      latitude: 0,
-      longitude: 0,
+      latitude: -6.225648,
+      longitude: 106.858290,
       region: 0,
       initialPosition: 'unknown',
       lastPosition: 'unknown',
@@ -47,7 +53,7 @@ class Maps extends Component {
   render() {
     let myMap;
     return (
-      <View style={{ flex: 1 }}>
+      <Container>
         <MapView
           ref={ref => (myMap = ref)}
           style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
@@ -58,7 +64,7 @@ class Maps extends Component {
             longitudeDelta: 0.0121
           }}
         >
-          <MapView.Marker
+          <Marker
             coordinate={{
               latitude: this.props.navigation.getParam('latitude'),
               longitude: this.props.navigation.getParam('longitude')
@@ -79,7 +85,7 @@ class Maps extends Component {
               );
             }}
           />
-          <MapView.Marker
+          <Marker
             coordinate={{
               latitude: this.state.latitude,
               longitude: this.state.longitude
@@ -102,18 +108,35 @@ class Maps extends Component {
           />
         </MapView >
         <View style={{ margin: 15 }}>
-          <Text>
+          <TouchableOpacity style={styles.btnBack} onPress={() => this.props.navigation.goBack()}>
+            <Icon
+              type="Ionicons"
+              name="md-arrow-round-back"
+              style={{ color: '#fff' }}
+            />
+          </TouchableOpacity>
+          {/* <Text>
             <Text style={{ fontWeight: '500', color: 'green' }}>Latitude : </Text>
             {this.state.latitude}
           </Text>
           <Text>
             <Text style={{ fontWeight: '500', color: 'red' }}>Longtitude: </Text>
             {this.state.longitude}
-          </Text>
+          </Text> */}
         </View>
-      </View>
+      </Container>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  btnBack: {
+    position: 'absolute',
+    backgroundColor: '#252f4a',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 25
+  }
+})
 
 export default Maps
