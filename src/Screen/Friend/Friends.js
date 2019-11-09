@@ -24,6 +24,7 @@ import {
 import Feather from 'react-native-vector-icons/Feather'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import * as firebase from "firebase"
+import Geolocation from '@react-native-community/geolocation';
 
 class Friends extends Component {
   constructor(props) {
@@ -34,12 +35,42 @@ class Friends extends Component {
       avatar: '',
       status: '',
       friends: [],
+      latitude: 0,
+      longitude: 0,
+      initialPosition: 'unknown',
+      lastPosition: 'unknown',
     }
   }
+
+  watchID: ?number = null;
 
   async componentDidMount() {
     await this.getDataProfile()
     this.getDataFriends()
+    this.getLocation()
+  }
+
+  async getLocation() {
+    Geolocation.getCurrentPosition(
+      position => {
+        const initialPosition = JSON.stringify(position);
+        this.setState({ initialPosition });
+      },
+      error => { },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
+    this.watchID = await Geolocation.watchPosition(position => {
+      // Update Latitude and Longitude
+      const userCollection = 'users/' + firebase.auth().currentUser.displayName
+      firebase.database().ref(userCollection).update({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      })
+    });
+  }
+
+  componentWillUnmount() {
+    this.watchID != null && Geolocation.clearWatch(this.watchID);
   }
 
   async getDataFriends() {

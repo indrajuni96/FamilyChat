@@ -22,8 +22,9 @@ class ChatRoom extends Component {
     Messages: [],
     name: '',
     displayName: '',
-    phoneNumber: ''
-
+    phoneNumber: '',
+    latitude: 0,
+    longitude: 0
   }
 
   async componentWillMount() {
@@ -33,7 +34,7 @@ class ChatRoom extends Component {
       displayName: this.props.navigation.getParam('username')
     })
     this.getMessage()
-    this.getPhoneNumber()
+    this.getDatauser()
   }
 
   userData = () => {
@@ -94,11 +95,13 @@ class ChatRoom extends Component {
       })
   }
 
-  async getPhoneNumber() {
+  async getDatauser() {
     const userCollection = 'users/' + this.state.displayName
     await firebase.database().ref(userCollection).once('value', (data) => {
       this.setState({
-        phoneNumber: data.val().phoneNumber
+        phoneNumber: data.val().phoneNumber,
+        latitude: data.val().latitude,
+        longitude: data.val().longitude
       })
     })
   }
@@ -128,6 +131,16 @@ class ChatRoom extends Component {
                     <Col style={{ alignItems: 'flex-end' }}>
                       <TouchableOpacity onPress={() => this.callPhone()}>
                         <FontAwesome style={[{ color: '#ffff' }]} size={25} name={'phone'} />
+                      </TouchableOpacity>
+                    </Col>
+                    <Col style={{ alignItems: 'flex-end' }}>
+                      <TouchableOpacity onPress={
+                        () => this.props.navigation.navigate('Maps', {
+                          username: this.state.displayName,
+                          latitude: this.state.latitude,
+                          longitude: this.state.longitude
+                        })}>
+                        <FontAwesome style={[{ color: '#ffff' }]} size={25} name={'map-marker'} />
                       </TouchableOpacity>
                     </Col>
                     <Col style={{ width: '30%', alignItems: 'flex-end', marginRight: 5 }}>

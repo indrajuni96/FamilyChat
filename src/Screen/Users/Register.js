@@ -16,6 +16,7 @@ import {
   Spinner
 } from 'native-base';
 import * as firebase from "firebase"
+import Geolocation from '@react-native-community/geolocation';
 
 class Register extends Component {
 
@@ -27,12 +28,45 @@ class Register extends Component {
       phoneNumber: 0,
       password: '',
       confirm_password: '',
-      isLoading: false
+      isLoading: false,
+      latitude: 0,
+      longitude: 0,
+      initialPosition: 'unknown',
+      lastPosition: 'unknown',
     };
   }
 
+  watchID: ?number = null;
+
+  async componentDidMount() {
+    await this.getLocation()
+  }
+
+  async getLocation() {
+    await Geolocation.getCurrentPosition(
+      position => {
+        const initialPosition = JSON.stringify(position);
+        this.setState({ initialPosition });
+      },
+      error => { },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
+    this.watchID = Geolocation.watchPosition(position => {
+      const lastPosition = JSON.stringify(position);
+      this.setState({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        lastPosition
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    this.watchID != null && Geolocation.clearWatch(this.watchID);
+  }
+
   async handleRegister() {
-    const { email, username, phoneNumber, password } = this.state;
+    const { email, username, phoneNumber, password, latitude, longitude } = this.state;
     const userCollection = 'users/' + this.state.username
 
     // check username is already in use
@@ -42,6 +76,7 @@ class Register extends Component {
       }
     })
 
+    // check password match
     if (this.state.password !== this.state.confirm_password) {
       return alert("Password doesn't match")
     }
@@ -57,20 +92,20 @@ class Register extends Component {
         })
 
         const avatar = 'https://ui-avatars.com/api/?size=256&name=' + this.state.username.replace(' ', '+')
-
         firebase.database().ref(userCollection).set({
           username,
           email,
           phoneNumber,
+          latitude,
+          longitude,
           avatar: avatar
         }).then((data) => {
           console.log('Data : ', data)
         }).catch((error) => {
           console.log('error', error)
         })
-
+        console.log(this.state.latitude)
         console.log("Account created Success")
-        // alert("Account created Success")
         this.setState({
           email: '',
           username: '',
